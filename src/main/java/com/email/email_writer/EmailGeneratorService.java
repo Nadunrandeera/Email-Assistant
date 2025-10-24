@@ -48,7 +48,7 @@ public class EmailGeneratorService {
          try{
              ObjectMapper mapper = new ObjectMapper();
              JsonNode rootNode = mapper.readTree(response);
-             return rootNode.path("candidate")
+             return rootNode.path("candidates")
                      .get(0)
                      .path("content")
                      .path("parts")
@@ -59,50 +59,6 @@ public class EmailGeneratorService {
              return "Error processing request: " + e.getMessage();
          }
     }
-//private String extractResponseContent(String response) {
-//    try{
-//        // Use the ObjectMapper you defined as a field in the class
-//        // If you don't have one, this line is fine:
-//        ObjectMapper mapper = new ObjectMapper();
-//
-//        JsonNode rootNode = mapper.readTree(response);
-//
-//        // First, check if the "candidates" array exists and is not empty
-//        JsonNode candidatesNode = rootNode.path("candidates"); // FIX 1: "candidates" (plural)
-//
-//        if (candidatesNode.isMissingNode() || !candidatesNode.isArray() || candidatesNode.isEmpty()) {
-//            // If not, it's an error. Print the error from Gemini to the console.
-//            System.err.println("Error or empty response from Gemini: " + rootNode.toPrettyString());
-//
-//            // Try to find and return the specific error message from the API
-//            JsonNode error = rootNode.path("error");
-//            if (!error.isMissingNode()) {
-//                return "Error from API: " + error.path("message").asText("Unknown error");
-//            }
-//            return "Error: Received an invalid response from the AI.";
-//        }
-//
-//        // If we are here, "candidates" exists.
-//        // FIX 2: Use .path(0) instead of .get(0) because it's safer and won't crash.
-//        String text = candidatesNode.path(0)
-//                .path("content")
-//                .path("parts")
-//                .path(0) // FIX 3: Use .path(0) here too
-//                .path("text")
-//                .asText(); // .asText() is safe and returns "" if not found
-//
-//        if (text.isEmpty()) {
-//            System.err.println("Could not find 'text' field in response: " + rootNode.toPrettyString());
-//            return "Error: Could not parse AI response.";
-//        }
-//
-//        return text;
-//
-//    }catch (Exception e){
-//        System.err.println("Failed to parse JSON: " + e.getMessage());
-//        return "Error processing response: " + e.getMessage();
-//    }
-//}
 
     private String buildpromt(EmailRequest emailRequest){
         StringBuilder prompt = new StringBuilder();
